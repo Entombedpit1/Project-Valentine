@@ -13,6 +13,10 @@
             height: 100vh;
             background-color: #f8f8f8;
             font-family: Arial, sans-serif;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transition: background-color 1s, opacity 1s ease-out; /* Transition both background and opacity */
         }
         .password-section {
             display: flex;
@@ -51,7 +55,28 @@
             font-family: "Times New Roman", Times, serif;
             font-size: 24px;
         }
+        /* Tv Turn-Off Animation */
+        #screen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 999;
+            display: none; /* Hidden by default */
+            animation: tvOff 1.0s forwards;
+        }
         
+        @keyframes tvOff {
+            0% { transform: scaleY(1); opacity: 1; }
+            60% { transform: scaleY(0.04); }
+            100% { transform: scaleY(0); opacity: 0; }
+        }
+        .faded {
+            background-color: black;
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
@@ -64,6 +89,8 @@
     </form>
     <p class="hint">Hint: Agnostic term for on god </p>
     <p id="message" style="color: red;"></p>
+    <!-- TV-Off Animation Overlay -->
+    <div id="screen-overlay"></div>
 
     <script>
           function togglePassword() {
@@ -90,10 +117,20 @@
             const password = document.getElementById("password").value;
             const validPasswords = ["On Something", "on something", "onsomething", "On something", "onSomething", "on Something", "OnSomething"];
             if (validPasswords.includes(password)) {
-                alert("Access Granted!");
+                // Show the screen overlay and play animation
+                document.getElementById("screen-overlay").style.display = "block";
+                document.body.classList.add("faded");  // Add fade-out effect to body
+                
+                // Redirect to the YouTube page after animation completes (1.5s)
+                setTimeout(() => {
+                    window.location.href = "introvid.html"; // Change to your actual page
+                }, 1000);
             } else {
                 document.getElementById("message").textContent = "Incorrect password, try again.";
             }
+        }
+        window.onload = () => {
+            document.body.style.opacity = "1";
         }
     </script>
 </body>
