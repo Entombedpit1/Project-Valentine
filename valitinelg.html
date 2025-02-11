@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Valentines</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f8f8f8;
+            font-family: Arial, sans-serif;
+        }
+        .password-section {
+            display: flex;
+            align-items: center;
+            border: 2px solid #000;
+            padding: 10px;
+            margin-top: 10px;
+            width: 250px;
+        }
+        input {
+            padding: 10px;
+            width: 100%;
+            border: none;
+            outline: none;
+        }
+        .toggle-password {
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .hint {
+            margin-top: 10px;
+            font-size: 12px;
+            color: gray;
+        }
+        .title {
+            font-family: "Times New Roman", Times, serif;
+        }
+    </style>
+</head>
+<body>
+    <h2 class="title">Project Valentine ❤️</h2>
+    <form onsubmit="event.preventDefault(); checkPassword();">
+        <div class="password-section">
+            <input type="password" id="password" placeholder="Enter password" onkeydown="handleKeyPress(event)">
+            <span class="toggle-password" onclick="togglePassword()">👁️</span>
+        </div>
+    </form>
+    <p class="hint">Hint: Agnostic term for on god </p>
+    <p id="message" style="color: red;"></p>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                checkPassword();
+            }
+        }
+
+        function checkPassword() {
+            const password = document.getElementById("password").value;
+            const validPasswords = ["On Something", "on something", "onsomething", "On something", "onSomething", "on Something", "OnSomething"];
+            if (validPasswords.includes(password)) {
+                alert("Access Granted!");
+            } else {
+                document.getElementById("message").textContent = "Incorrect password, try again.";
+            }
+        }
+    </script>
+</body>
+</html>
