@@ -16,7 +16,7 @@
             position: relative;
             overflow: hidden;
             opacity: 0;
-            transition: background-color 1s, opacity 1s ease-out; /* Transition both background and opacity */
+            transition: background-color 1.5s, opacity 1.5s ease-out; /* Transition both background and opacity */
         }
         .password-section {
             display: flex;
@@ -65,7 +65,7 @@
             background: black;
             z-index: 999;
             display: none; /* Hidden by default */
-            animation: tvOff 1.0s forwards;
+            animation: tvOff 1.5s forwards;
         }
         
         @keyframes tvOff {
@@ -76,6 +76,9 @@
         .faded {
             background-color: black;
             opacity: 0;
+        }
+        .hidden {
+            visibility: hidden;
         }
     </style>
 </head>
@@ -115,16 +118,21 @@
 
         function checkPassword() {
             const password = document.getElementById("password").value;
-            const validPasswords = ["On Something", "on something", "onsomething", "On something", "onSomething", "on Something", "OnSomething"];
+            const validPasswords = [" On Something", "on something", "onsomething", "On something", "onSomething", "on Something", "OnSomething","Onsomething"];
             if (validPasswords.includes(password)) {
+                // Hide the elements to avoid flickering
+                document.querySelector('.title').classList.add('hidden');
+                document.querySelector('.password-section').classList.add('hidden');
+                document.querySelector('.hint').classList.add('hidden');
+
                 // Show the screen overlay and play animation
                 document.getElementById("screen-overlay").style.display = "block";
-                document.body.classList.add("faded");  // Add fade-out effect to body
-                
+                document.body.classList.add("faded");  // Add fade-out effect to body (entire page fades to black)
+
                 // Redirect to the YouTube page after animation completes (1.5s)
                 setTimeout(() => {
                     window.location.href = "introvid.html"; // Change to your actual page
-                }, 1000);
+                }, 1200);
             } else {
                 document.getElementById("message").textContent = "Incorrect password, try again.";
             }

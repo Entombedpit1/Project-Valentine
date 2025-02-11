@@ -19,15 +19,64 @@
             0% { opacity: 0; }
             100% { opacity: 1; }
         }
+
+        .video-container {
+            position: relative;
+            width: 560px;
+            height: 315px;
+        }
+
+        .thumbnail {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* YouTube Play Button using pure CSS */
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background-color: red;
+            clip-path: polygon(25% 0%, 100% 50%, 25% 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/XdPtVqlYCj4?si=F3NMjltP-Z14kRtf" 
-    title="YouTube video player" 
-    frameborder="0" 
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-    referrerpolicy="strict-origin-when-cross-origin" 
-    allowfullscreen>
+
+<div class="video-container">
+    <div class="thumbnail" onclick="playVideo()">
+        <div class="play-button"></div>
+    </div>
+    <iframe id="youtubeVideo"
+        src="https://www.youtube.com/embed/XdPtVqlYCj4?autoplay=1&rel=0"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
     </iframe>
+</div>
+
+<script>
+    function playVideo() {
+        document.querySelector('.thumbnail').style.display = 'none';
+        document.getElementById('youtubeVideo').style.display = 'block';
+    }
+</script>
+
 </body>
 </html>
