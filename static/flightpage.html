@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Page</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        #loading-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            position: relative;
+            flex-direction: column;
+        }
+
+        .slideshow {
+            width: 80%;
+            height: 80%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slideshow img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .slideshow img.active {
+            opacity: 1;
+        }
+
+        #loading-bar-container {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: #555;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #loading-bar {
+            width: 0%;
+            height: 100%;
+            background-color: green;
+            transition: width 0.25s linear;
+        }
+
+        #loading-text {
+            position: absolute;
+            font-size: 18px;
+            color: white;
+        }
+
+        #video-container {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+
+        iframe {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+        }
+
+        #fade-to-black {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            opacity: 0;
+            transition: opacity 2s ease;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+<div id="loading-screen">
+    <div class="slideshow">
+        <img src="../images/slideshow1.jpg" alt="Image 1" class="slideshow-image">
+        <img src="../images/slideshow2.jpg" alt="Image 2" class="slideshow-image">
+        <img src="../images/slideshow3.jpg" alt="Image 3" class="slideshow-image">
+        <img src="../images/slideshow4.jpg" alt="Image 4" class="slideshow-image">
+        <img src="../images/slideshow5.jpg" alt="Image 5" class="slideshow-image">
+    </div>
+    <div id="loading-bar-container">
+        <div id="loading-bar"></div>
+        <div id="loading-text">Loading</div>
+    </div>
+</div>
+
+<div id="fade-to-black"></div>
+
+<div id="video-container">
+    <iframe src="https://www.youtube.com/embed/qI8aWYrXxQo?si=aYqebVgXSnn86Lsx&amp;start=20" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
+<script>
+    const slideshowDuration = 15000;
+    const loadingBar = document.getElementById('loading-bar');
+    const loadingText = document.getElementById('loading-text');
+    const videoContainer = document.getElementById('video-container');
+    const fadeToBlack = document.getElementById('fade-to-black');
+    const images = document.querySelectorAll('.slideshow-image');
+
+    let loadingBarWidth = 0;
+    const loadingInterval = setInterval(() => {
+        if (loadingBarWidth < 100) {
+            loadingBarWidth += (100 / slideshowDuration) * 1000;
+            loadingBar.style.width = `${loadingBarWidth}%`;
+        }
+    }, 1000);
+
+    let currentImageIndex = 0;
+    function showNextImage() {
+        images[currentImageIndex].classList.remove('active');
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        images[currentImageIndex].classList.add('active');
+    }
+
+    setInterval(showNextImage, 3500);
+    images[currentImageIndex].classList.add('active');
+
+    setTimeout(() => {
+        document.getElementById("loading-screen").style.transition = "opacity 2s ease";
+        document.getElementById("loading-screen").style.opacity = 0;
+
+        setTimeout(() => {
+            fadeToBlack.style.opacity = 1;
+        }, 13000);
+
+        setTimeout(() => {
+            videoContainer.style.display = "flex";
+            videoContainer.style.opacity = 1;
+            fadeToBlack.style.opacity = 0;
+        }, 14000);
+    }, slideshowDuration);
+</script>
+
+</body>
+</html>

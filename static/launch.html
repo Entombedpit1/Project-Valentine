@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Launch</title>
+    <style>
+        /* Full-screen setup */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: black;
+            animation: fadeIn 2s forwards;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .launch-button {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: red;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            animation: fadeInButton 2s forwards;
+        }
+
+        .launch-button:hover {
+            background-color: darkred;
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fadeInButton {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<img src="../images/Gemcp.png" alt="Background" class="background">
+
+<button class="launch-button" onclick="launchSequence()">Launch</button>
+
+<script>
+    setTimeout(() => {
+        document.querySelector('.launch-button').style.opacity = 1;
+        document.querySelector('.launch-button').style.visibility = 'visible';
+    }, 5000);
+
+    function launchSequence() {
+        // Redirect to the flight page after the launch button is clicked
+        window.location.href = "flightpage.html";
+    }
+</script>
+
+</body>
+</html>
