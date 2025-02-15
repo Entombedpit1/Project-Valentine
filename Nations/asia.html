@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Asia</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background: url('../images/Nations/asiabg.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
+        }
+        .spacer {
+            height: 420px; /* Adds space at the top */
+        }
+        iframe {
+            width: 100%;
+            border: none;
+            margin-bottom: 20px;
+        }
+        .youtube {
+            height: 315px;
+        }
+        .spotify {
+            height: 850px; /* Allows for viewing multiple songs */
+        }
+        .button {
+            padding: 15px 30px;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: rgba(200, 0, 0, 1);
+        }
+        .welcome {
+            font-size: 48px;
+            font-family: 'Georgia', serif;
+            color: red;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 20px;
+            background: white;
+            padding: 10px 20px;
+            display: inline-block;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="welcome">Welcome to Asia !!</h1>
+    <div class="spacer"></div>
+    <div class="container">
+        <!-- YouTube Embed -->
+        <iframe class="youtube" src="https://www.youtube.com/embed/XdPtVqlYCj4?si=mdwQW-OfazrBQfsK" allowfullscreen></iframe>
+        
+        <!-- Spotify Embed -->
+        <iframe class="spotify" src="https://open.spotify.com/embed/playlist/4LuQrYxczo7EwxYLyoVdEv?utm_source=generator" allow="encrypted-media"></iframe>
+        
+        <!-- Button -->
+        <button class="button" onclick="alert('Reconnaissance Complete!')">Complete Reconnaissance</button>
+    </div>
+</body>
+</html>
