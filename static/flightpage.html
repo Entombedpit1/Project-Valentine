@@ -9,161 +9,151 @@
             margin: 0;
             padding: 0;
             height: 100vh;
-            overflow: hidden;
-            background-color: black;
-        }
-
-        #loading-screen {
+            width: 100vw;
             display: flex;
             justify-content: center;
             align-items: center;
+            background-color: black;
+            overflow: hidden;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100vw;
             height: 100vh;
-            background-color: black;
-            position: relative;
-            flex-direction: column;
         }
 
-        .slideshow {
-            width: 80%;
-            height: 80%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .slideshow img {
-            position: absolute;
+        .thumbnail {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
-        }
-
-        .slideshow img.active {
-            opacity: 1;
-        }
-
-        #loading-bar-container {
+            object-fit: cover;
+            cursor: pointer;
             position: absolute;
-            bottom: 20px;
+            top: 0;
             left: 0;
+            transition: opacity 0.5s ease-out; /* Faster fade-out */
+            z-index: 2; /* Ensure it is above the video initially */
+        }
+
+        #player-container {
             width: 100%;
-            height: 40px;
-            background-color: #555;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #loading-bar {
-            width: 0%;
             height: 100%;
-            background-color: green;
-            transition: width 0.25s linear;
-        }
-
-        #loading-text {
-            position: absolute;
-            font-size: 18px;
-            color: white;
-        }
-
-        #video-container {
             display: none;
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: black;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 2s ease;
+            z-index: 1; /* Video should be below thumbnail */
         }
 
-        iframe {
-            width: 100vw;
-            height: 100vh;
-            border: none;
-        }
-
-        #fade-to-black {
+        .launch-button {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: black;
-            opacity: 0;
-            transition: opacity 2s ease;
-            z-index: 10;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 20px 40px;
+            font-size: 24px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            z-index: 3; /* Above all */
+        }
+
+        .launch-button:hover {
+            background-color: darkred;
+        }
+
+        .skip-button {
+            position: absolute;
+            bottom: 5%;
+            right: 5%;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: rgba(255, 255, 255, 0.3);
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            display: none;
+            transition: background 0.3s;
+            z-index: 3; /* Above all */
+        }
+
+        .skip-button:hover {
+            background-color: rgba(255, 255, 255, 0.6);
         }
     </style>
 </head>
 <body>
 
-<div id="loading-screen">
-    <div class="slideshow">
-        <img src="../images/slideshow1.jpg" alt="Image 1" class="slideshow-image">
-        <img src="../images/slideshow2.jpg" alt="Image 2" class="slideshow-image">
-        <img src="../images/slideshow3.jpg" alt="Image 3" class="slideshow-image">
-        <img src="../images/slideshow4.jpg" alt="Image 4" class="slideshow-image">
-        <img src="../images/slideshow5.jpg" alt="Image 5" class="slideshow-image">
+<div class="video-container">
+    <img src="../images/flightnail.png" alt="Video Thumbnail" class="thumbnail" id="thumbnail">
+    <div id="player-container">
+        <div id="youtube-video"></div>
     </div>
-    <div id="loading-bar-container">
-        <div id="loading-bar"></div>
-        <div id="loading-text">Loading</div>
-    </div>
-</div>
-
-<div id="fade-to-black"></div>
-
-<div id="video-container">
-    <iframe src="https://www.youtube.com/embed/qI8aWYrXxQo?si=aYqebVgXSnn86Lsx&amp;start=20" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <button class="launch-button" id="launch-button">Launch</button>
+    <button class="skip-button" id="skip-button" onclick="skipMission()">Skip</button>
 </div>
 
 <script>
-    const slideshowDuration = 15000;
-    const loadingBar = document.getElementById('loading-bar');
-    const loadingText = document.getElementById('loading-text');
-    const videoContainer = document.getElementById('video-container');
-    const fadeToBlack = document.getElementById('fade-to-black');
-    const images = document.querySelectorAll('.slideshow-image');
+    let player;
 
-    let loadingBarWidth = 0;
-    const loadingInterval = setInterval(() => {
-        if (loadingBarWidth < 100) {
-            loadingBarWidth += (100 / slideshowDuration) * 1000;
-            loadingBar.style.width = `${loadingBarWidth}%`;
-        }
-    }, 1000);
-
-    let currentImageIndex = 0;
-    function showNextImage() {
-        images[currentImageIndex].classList.remove('active');
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-        images[currentImageIndex].classList.add('active');
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('youtube-video', {
+            height: '100%',
+            width: '100%',
+            videoId: 'qI8aWYrXxQo', // Video ID
+            playerVars: {
+                start: 20,
+                autoplay: 0, // Autoplay manually triggered
+                controls: 0,
+                modestbranding: 1,
+                rel: 0,
+                playsinline: 1
+            },
+            events: {
+                'onReady': onPlayerReady
+            }
+        });
     }
 
-    setInterval(showNextImage, 3500);
-    images[currentImageIndex].classList.add('active');
+    function onPlayerReady(event) {
+        document.getElementById("launch-button").addEventListener("click", function() {
+            const thumbnail = document.getElementById("thumbnail");
+            const launchButton = document.getElementById("launch-button");
+            const playerContainer = document.getElementById("player-container");
+            const skipButton = document.getElementById("skip-button");
 
-    setTimeout(() => {
-        document.getElementById("loading-screen").style.transition = "opacity 2s ease";
-        document.getElementById("loading-screen").style.opacity = 0;
+            // Instantly hide thumbnail and show video without blackout
+            thumbnail.style.opacity = "0";
+            setTimeout(() => {
+                thumbnail.style.display = "none";
+                launchButton.style.display = "none";
+                playerContainer.style.display = "block";
+                skipButton.style.display = "block"; // Show skip button
 
-        setTimeout(() => {
-            fadeToBlack.style.opacity = 1;
-        }, 13000);
+                // Play video and set speed to 1.25x
+                player.playVideo();
+                player.setPlaybackRate(1.25);
 
-        setTimeout(() => {
-            videoContainer.style.display = "flex";
-            videoContainer.style.opacity = 1;
-            fadeToBlack.style.opacity = 0;
-        }, 14000);
-    }, slideshowDuration);
+                // Auto-redirect after 5m 20s at 1.25x speed
+                setTimeout(() => {
+                    window.location.href = "mission.html";
+                }, 310000);
+            }, 500); // Reduce delay to minimize blackout
+        });
+    }
 
+    function skipMission() {
+        window.location.href = "mission.html";
+    }
+
+    // Load YouTube API script
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 </script>
 
 </body>

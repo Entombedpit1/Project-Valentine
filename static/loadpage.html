@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>load page</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        #loading-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            position: relative;
+            flex-direction: column;
+        }
+
+        .slideshow {
+            width: 80%;
+            height: 80%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slideshow img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+
+        .slideshow img.active {
+            opacity: 1;
+        }
+
+        #loading-bar-container {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: #555;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #loading-bar {
+            width: 0%;
+            height: 100%;
+            background-color: green;
+            transition: width 0.25s linear;
+        }
+
+        #loading-text {
+            position: absolute;
+            font-size: 18px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div id="loading-screen">
+    <div class="slideshow">
+        <img src="../images/slide show/slideshow1.jpg" alt="Image 1" class="slideshow-image">
+        <img src="../images/slide show/slideshow2.jpg" alt="Image 2" class="slideshow-image">
+        <img src="../images/slide show/slideshow3.jpg" alt="Image 3" class="slideshow-image">
+        <img src="../images/slide show/slideshow4.jpg" alt="Image 4" class="slideshow-image">
+        <img src="../images/slide show/slideshow5.jpg" alt="Image 5" class="slideshow-image">
+    </div>
+    <div id="loading-bar-container">
+        <div id="loading-bar"></div>
+        <div id="loading-text">Loading</div>
+    </div>
+</div>
+
+<script>
+    const slideshowDuration = 15000;
+    const loadingBar = document.getElementById('loading-bar');
+    const loadingText = document.getElementById('loading-text');
+    const images = document.querySelectorAll('.slideshow-image');
+
+    let loadingBarWidth = 0;
+    const loadingInterval = setInterval(() => {
+        if (loadingBarWidth < 100) {
+            loadingBarWidth += (100 / slideshowDuration) * 1000;
+            loadingBar.style.width = `${loadingBarWidth}%`;
+        }
+    }, 1000);
+
+    let currentImageIndex = 0;
+    function showNextImage() {
+        images[currentImageIndex].classList.remove('active');
+        currentImageIndex = (currentImageIndex + 1) % images.length;
+        images[currentImageIndex].classList.add('active');
+    }
+
+    setInterval(showNextImage, 3500);
+    images[currentImageIndex].classList.add('active');
+
+    setTimeout(() => {
+        window.location.href = "flightpage.html";
+    }, slideshowDuration);
+</script>
+
+</body>
+</html>
