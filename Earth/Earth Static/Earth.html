@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mission Gemini</title>
+    <script src="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Cesium.js"></script>
+    <link href="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #cesiumContainer {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cover Screen (Fades Out on Load) -->
+    <div id="coverScreen">
+        <img src="/images/mission.PNG" alt="Loading..." />
+    </div>
+
+    <div id="ui-container">
+        <div id="controls-ui">
+            <strong>WASD Controls:</strong><br>
+            W = Up | S = Down | A = Left | D = Right
+        </div>
+        <div id="coordinates-ui">
+            <strong>Coordinates:</strong><br>
+            Lat: <span id="lat">0.0000</span>°<br>
+            Lon: <span id="lon">0.0000</span>°
+        </div>
+    </div>
+
+    <!-- Cesium Container -->
+    <div id="cesiumContainer"></div>
+   
+    
+    
+    <script src="script.js" defer></script>
+</body>
+
+</html>

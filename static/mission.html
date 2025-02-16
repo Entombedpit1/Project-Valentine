@@ -18,7 +18,10 @@
             justify-content: center; /* Center the box horizontally */
             align-items: center; /* Center the box vertically */
             padding: 20px;
+            opacity: 1; /* Default opacity */
+            transition: opacity 1.5s ease-in-out; /* Smooth fade-out transition */
         }
+        
         .mission-container {
             background: rgba(0, 0, 255, 0.6); /* Blue overlay */
             padding: 30px;
@@ -31,6 +34,7 @@
             flex-direction: column;
             justify-content: center;
         }
+
         .mission-container h1 {
             font-size: 32px;
             margin-bottom: 10px;
@@ -96,7 +100,13 @@
 
     <script>
         function beginMission() {
-            window.location.href = "mission_start.html"; // Change this to the actual mission page
+            // Fade out effect
+            document.body.style.opacity = "0";
+            
+            // Delay navigation until the fade-out is complete
+            setTimeout(() => {
+                window.location.href = "/Earth/Earth Static/Earth.html"; // Change this to the actual mission page
+            }, 1500); // Match the CSS transition time
         }
     </script>
 </body>

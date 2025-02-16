@@ -1,0 +1,72 @@
+/* Ensure Cesium container covers the full screen */
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevent scrolling */
+}
+
+/* Cesium container full-screen */
+#cesiumContainer {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Cover screen styles (full-screen PNG) */
+#coverScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black; /* Fallback background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999; /* Ensure it's above everything */
+    opacity: 1; /* Ensure it's fully visible initially */
+    transition: opacity 1.5s ease-in-out; /* Smooth fade effect */
+}
+
+/* Cover image full-screen */
+#coverScreen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the entire screen */
+}
+
+#ui-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    z-index: 1000; /* Ensures it's above Cesium */
+}
+
+#controls-ui {
+    margin-bottom: 10px;
+}
+
+/* Fade-in effect on body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    opacity: 0;  /* Start invisible */
+    transition: opacity 1.5s ease-in-out; /* Smooth fade-in */
+}
+
+/* Hide cover when faded out */
+.hidden {
+    opacity: 0;
+    pointer-events: none; /* Prevent interaction when hidden */
+}
