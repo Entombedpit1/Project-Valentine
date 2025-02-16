@@ -10,7 +10,7 @@ function fadeOutCover() {
         coverScreen.style.opacity = "0"; // Smooth fade-out
         setTimeout(() => {
             coverScreen.style.display = "none";
-        }, 1500); // Remove after fade
+        }, 1500);
     }
 }
 
@@ -60,10 +60,10 @@ viewer.scene.globe.tileLoadProgressEvent.addEventListener((event) => {
 
 // Initialize the Gemini spacecraft (PNG Image) with New Initial Position
 const geminiAltitude = 2000000;
-let geminiLat = 18.2000; // ✅ Updated Latitude
-let geminiLon = -144.9500; // ✅ Updated Longitude
-const geminiSpeed = 0.05; // 🔹 Slower movement for better control
-let currentRotation = 0; // Keep track of current rotation
+let geminiLat = 18.2000;
+let geminiLon = -144.9500;
+const geminiSpeed = 0.07;
+let currentRotation = 0;
 
 // Load images (only using up image + static)
 const images = {
@@ -77,22 +77,22 @@ const gemini = viewer.entities.add({
     position: Cesium.Cartesian3.fromDegrees(geminiLon, geminiLat, geminiAltitude),
     billboard: {
         image: images.idle,
-        scale: 0.5, // 🔹 Smaller size
+        scale: 0.5,
         alignedAxis: Cesium.Cartesian3.ZERO,
-        disableDepthTestDistance: Number.POSITIVE_INFINITY, // 🔹 Ensures it always renders above the Earth
-        eyeOffset: new Cesium.Cartesian3(0, 0, 500000), // 🔹 Moves the PNG above the Earth
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        eyeOffset: new Cesium.Cartesian3(0, 0, 500000),
         horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
         verticalOrigin: Cesium.VerticalOrigin.CENTER,
-        rotation: 0 // Default orientation
+        rotation: 0
     }
 });
 
-// 🔹 Lock camera onto Gemini from the beginning (same as clicking on it manually)
+// Lock camera onto Gemini from the beginning
 viewer.trackedEntity = gemini;
 
 // Set camera to initial position
 viewer.camera.setView({
-    destination: Cesium.Cartesian3.fromDegrees(geminiLon, geminiLat - 10, 10000000), // 🔹 Adjusted for better start view
+    destination: Cesium.Cartesian3.fromDegrees(geminiLon, geminiLat - 10, 10000000),
     orientation: {
         heading: Cesium.Math.toRadians(0),
         pitch: Cesium.Math.toRadians(-30),
@@ -106,23 +106,17 @@ const lonDisplay = document.getElementById("lon");
 
 // Key state tracking for smooth movement
 let keysPressed = {};
-let isMoving = false;
 
-// Handle key press for movement (Instant Image Switching)
+// Handle key press for movement
 window.addEventListener('keydown', (e) => {
     keysPressed[e.key.toLowerCase()] = true;
     updateGeminiImage();
-    if (!isMoving) {
-        isMoving = true;
-        requestAnimationFrame(updateGeminiMovement);
-    }
 });
 
 // Handle key release to reset image to idle
 window.addEventListener('keyup', (e) => {
     delete keysPressed[e.key.toLowerCase()];
     if (Object.keys(keysPressed).length === 0) {
-        isMoving = false;
         setGeminiImage(images.idle, 0);
     }
 });
@@ -167,7 +161,7 @@ function setGeminiImage(imagePath, rotation) {
     }
 }
 
-// Function to smoothly update movement & update coordinates in HTML
+// ✅ FIX: Optimized movement loop (No Lag, No Freezing)
 function updateGeminiMovement() {
     let moved = false;
 
@@ -192,6 +186,17 @@ function updateGeminiMovement() {
         gemini.position = Cesium.Cartesian3.fromDegrees(geminiLon, geminiLat, geminiAltitude);
         latDisplay.textContent = geminiLat.toFixed(4);
         lonDisplay.textContent = geminiLon.toFixed(4);
+    }
+
+    requestAnimationFrame(updateGeminiMovement); // Keeps running efficiently
+}
+
+// ✅ FIX: Restart animation loop even when tab is inactive
+document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
         requestAnimationFrame(updateGeminiMovement);
     }
-}
+});
+
+// Start the animation loop
+requestAnimationFrame(updateGeminiMovement);
