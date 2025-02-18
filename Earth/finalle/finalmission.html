@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission to the Moon</title>
+    <style>
+        /* 🌌 Space Background */
+        body {
+            margin: 0;
+            padding: 0;
+            background: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 🌍 Earth (Left Side - Larger & Centered) */
+        #earth {
+            position: absolute;
+            left: 3%;
+            top: 50%;
+            width: 350px; /* Increased size */
+            height: 350px;
+            transform: translateY(-50%);
+        }
+
+        /* 🌕 Moon (Right Side - Larger & Centered) */
+        #moon {
+            position: absolute;
+            right: 3%;
+            top: 50%;
+            width: 400px; /* Increased size */
+            height: 400px;
+            transform: translateY(-50%);
+        }
+
+        /* 🚀 Gemini Module (Moving) */
+        #gemini {
+            position: absolute;
+            top: 50%;
+            left: 8%;
+            width: 140px; /* Slightly larger */
+            height: auto;
+            transform: translateY(-50%);
+            animation: moveGemini 10s linear forwards;
+        }
+
+        /* 🔄 Moving Animation */
+        @keyframes moveGemini {
+            from {
+                left: 12%;
+            }
+            to {
+                left: 78%;
+            }
+        }
+
+        /* 📶 Loading Bar Container */
+        .loading-container {
+            position: absolute;
+            bottom: 10%;
+            width: 80%;
+            height: 25px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 3px solid #00ccff;
+        }
+
+        /* 📊 Loading Progress */
+        .loading-bar {
+            width: 0%;
+            height: 100%;
+            background: #00ccff;
+            transition: width 10s linear;
+        }
+
+        /* 🚀 Space Themed Font */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+        h1 {
+            position: absolute;
+            top: 5%;
+            font-family: 'Orbitron', sans-serif;
+            color: #00ccff;
+            font-size: 28px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Title -->
+    <h1>Mission: Earth to the Moon</h1>
+
+    <!-- Static Earth -->
+    <img id="earth" src="/Earth/model/Earth.png" alt="Earth">
+
+    <!-- Moving Gemini Module -->
+    <img id="gemini" src="/Earth/model/geminifly.png" alt="Gemini Module">
+
+    <!-- Static Moon -->
+    <img id="moon" src="/Earth/model/moon.png" alt="Moon">
+
+    <!-- Loading Bar -->
+    <div class="loading-container">
+        <div class="loading-bar" id="progress-bar"></div>
+    </div>
+
+    <script>
+        // Animate Loading Bar
+        window.onload = function() {
+            let progressBar = document.getElementById("progress-bar");
+            progressBar.style.width = "100%";
+
+            // After 10 seconds, redirect to the final destination
+            setTimeout(() => {
+                window.location.href = "final_destination.html"; // Change to your target page
+            }, 10000);
+        };
+    </script>
+
+</body>
+</html>

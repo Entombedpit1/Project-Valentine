@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Destination</title>
+    <style>
+        /* 🌌 Space Background */
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('/Earth/model/earthrise.png') no-repeat center top fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow: hidden; /* 🚀 Disable scrolling initially */
+            padding-top: 100px; /* Adjusted top padding */
+        }
+
+        /* 🎬 Media Containers */
+        .media-container {
+            width: 80%;
+            max-width: 900px;
+            margin: 50px auto; /* ✅ Increased spacing */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0; /* 🔥 Start hidden */
+            transform: translateY(20px);
+            transition: opacity 1.5s ease-in-out, transform 1.5s ease-in-out;
+        }
+
+        /* ✅ Lowered YouTube & Centered */
+        #youtube-container {
+            margin-top: 100px; /* ⬇ Lowering the YouTube embed */
+        }
+
+        .youtube {
+            width: 100%;
+            height: 500px; /* 🔥 Slightly Larger */
+            border: none;
+        }
+
+        /* ✅ Spotify Adjusted for 28 Songs (1650px) */
+        .spotify {
+            width: 100%;
+            height: 1650px;
+            border: none;
+        }
+
+        /* ✅ Fade-in Effect */
+        .fade-in {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        /* 🚀 Sat Gus Button (More Space Below) */
+        .satgus-btn {
+            display: none; /* 🔥 Start hidden */
+            opacity: 0;
+            margin-top: 50px; /* ✅ More spacing from Spotify */
+            margin-bottom: 120px; /* ✅ More space from the bottom */
+            padding: 20px 50px;
+            background: #0077FF; /* 🌍 Deep Earth Blue */
+            color: white;
+            font-size: 24px; /* 🔥 Increased size */
+            font-weight: bold;
+            border: 3px solid white;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.3s, opacity 1.5s ease-in-out, transform 0.2s;
+        }
+
+        .satgus-btn:hover {
+            background: #0057CC; /* 🔥 Darker Blue */
+            transform: scale(1.1);
+            box-shadow: 0px 0px 15px #00ccff;
+        }
+
+        /* ✅ Make the button appear smoothly */
+        .show-btn {
+            display: block !important;
+            opacity: 1 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🎬 YouTube Embed -->
+    <div id="youtube-container" class="media-container">
+        <iframe class="youtube" 
+            src="https://www.youtube.com/embed/XdPtVqlYCj4?si=zTZNn8-bHEGh55OR" 
+            title="YouTube video player" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+    </div>
+
+    <!-- 🎵 Spotify Embed -->
+    <div id="spotify-container" class="media-container">
+        <iframe class="spotify" 
+            style="border-radius:12px" 
+            src="https://open.spotify.com/embed/playlist/4fAGXjn0g3CSeDjB3rkE4K?utm_source=generator" 
+            frameBorder="0" allowfullscreen 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+            loading="lazy">
+        </iframe>
+    </div>
+
+    <!-- 🚀 Sat Gus Button (More space below) -->
+    <button id="satgus-btn" class="satgus-btn" onclick="window.location.href='satgus.html'">Sat Gus</button>
+
+    <script>
+        // ✅ YouTube Appears After 2s
+        setTimeout(() => {
+            document.getElementById("youtube-container").classList.add("fade-in");
+        }, 2000);
+
+        // ✅ Spotify Appears After 7s + Enables Scrolling
+        setTimeout(() => {
+            document.getElementById("spotify-container").classList.add("fade-in");
+            document.body.style.overflowY = "auto"; // 🔥 Enable scrolling after Spotify appears
+        }, 7000);
+
+        // ✅ Sat Gus Button Appears After 10s (More Space Below)
+        setTimeout(() => {
+            document.getElementById("satgus-btn").classList.add("show-btn");
+        }, 10000);
+    </script>
+
+</body>
+</html>

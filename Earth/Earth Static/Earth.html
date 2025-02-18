@@ -2,31 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mission Gemini</title>
     <script src="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Cesium.js"></script>
     <link href="https://cesium.com/downloads/cesiumjs/releases/1.104/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css" />
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-        #cesiumContainer {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css"> <!-- ✅ Uses your existing CSS -->
 </head>
 <body>
+
     <!-- Cover Screen (Fades Out on Load) -->
     <div id="coverScreen">
-        <img src="/images/mission.PNG" alt="Loading..." />
+        <img src="/images/mission.PNG" alt="Loading...">
     </div>
 
+    <!-- UI Container -->
     <div id="ui-container">
         <div id="controls-ui">
             <strong>WASD Controls:</strong><br>
@@ -35,16 +24,113 @@
         <div id="coordinates-ui">
             <strong>Coordinates:</strong><br>
             Lat: <span id="lat">0.0000</span>°<br>
-            Lon: <span id="lon">0.0000</span>°
+            Lon: <span id="lon">0.0000</span>° 
         </div>
+    </div>
+
+    <!-- Country Info Side Panel -->
+    <div id="side-panel" class="hidden">
+        <h2 id="country-name"></h2>
+        <div class="photo-collage">
+            <img id="photo1" src="" alt="Photo 1">
+            <img id="photo2" src="" alt="Photo 2">
+            <img id="photo3" src="" alt="Photo 3">
+        </div>
+        <hr>
+        <p id="country-description"></p>
+        <button id="recon-button">Conduct Reconnaissance</button>
+    </div>
+
+    <!-- Visited Locations Checklist -->
+    <div id="visited-checklist">
+        <h3>Mission Checklist</h3>
+        <ul id="checklist">
+            <li><input type="checkbox" id="Japan" disabled> Japan</li>
+            <li><input type="checkbox" id="West Coast" disabled> West Coast</li>
+            <li><input type="checkbox" id="East Coast" disabled> East Coast</li>
+            <li><input type="checkbox" id="Moscow" disabled> Moscow</li>
+            <li><input type="checkbox" id="Egypt" disabled> Egypt</li>
+            <li><input type="checkbox" id="Australia" disabled> Australia</li>
+            <li><input type="checkbox" id="Venezuela" disabled> Venezuela</li>
+        </ul>
+        <button id="reset-mission">Reset Mission</button> <!-- ✅ Reset Button -->
+    </div>
+    
+    <!-- Final Objective Popup (Initially Hidden) -->
+    <div id="final-objective-popup" class="hidden">
+        <h3>Final Objective</h3>
+        <button id="meet-henry">Meet with Henry</button>
     </div>
 
     <!-- Cesium Container -->
     <div id="cesiumContainer"></div>
-   
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            updateChecklist(); // ✅ Update checklist dynamically
+            setupEventListeners(); // ✅ Ensure buttons work
+        });
+        // ✅ Ensure the script runs after DOM is fully loaded
+            document.addEventListener("DOMContentLoaded", function () {
+            let meetHenryButton = document.getElementById("meet-henry");
     
-    
+             if (meetHenryButton) {
+                console.log("Meet Henry button found and ready.");
+                meetHenryButton.addEventListener("click", function () {
+                console.log("Meet Henry button clicked. Redirecting...");
+                window.location.href = "finalmission.html"; // ✅ Redirects to final mission page
+                });
+                } else {
+                console.error("❌ Meet Henry button NOT found!");
+                }
+        });
+
+
+        function updateChecklist() {
+    let visited = JSON.parse(sessionStorage.getItem("visitedLocations")) || [];
+    let allVisited = true;
+
+    document.querySelectorAll("#checklist input").forEach((checkbox) => {
+        if (visited.includes(checkbox.id)) {
+            checkbox.checked = true;
+            checkbox.parentElement.style.color = "#00ccff"; // ✅ Neon blue
+            checkbox.parentElement.style.fontWeight = "bold";
+        } else {
+            allVisited = false;
+        }
+    });
+
+    // ✅ If all locations are visited, show the final objective popup
+    let finalPopup = document.getElementById("final-objective-popup");
+    if (allVisited) {
+        console.log("✅ All locations visited! Showing Final Objective popup.");
+        finalPopup.classList.add("show");
+        finalPopup.style.display = "block";
+    }
+}
+
+
+        // ✅ **Meet Henry Button Click Event**
+        function setupEventListeners() {
+            let meetHenryButton = document.getElementById("meet-henry");
+            if (meetHenryButton) {
+                meetHenryButton.addEventListener("click", function () {
+                    window.location.href = "/Earth/finalle/finaldestinaiton.html"; // ✅ Redirects to final mission page
+                });
+            }
+
+            // ✅ **Reset Mission Button Logic**
+            document.getElementById("reset-mission").addEventListener("click", function () {
+                sessionStorage.removeItem("visitedLocations"); // Clear checklist
+                sessionStorage.setItem("geminiLat", "18.2000"); // Reset latitude
+                sessionStorage.setItem("geminiLon", "-144.9500"); // Reset longitude
+                window.location.reload(); // Reload page
+            });
+        }
+
+    </script>
+
     <script src="script.js" defer></script>
 </body>
-
 </html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Selfie</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: "Gotham";
+            src: url("/assets/fonts/Gotham/Gotham-Bold.woff2") format("woff2");
+            font-weight: 700;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
+            background: url('/Earth/model/SatGus.PNG') no-repeat center center/cover;
+            font-family: "Gotham", sans-serif;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* COMING SOON TEXT */
+        .coming-soon {
+            font-family: "Orbitron", sans-serif;
+            font-size: 100px;
+            font-weight: bold;
+            position: absolute;
+            top: 200px;
+            right: 27%;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            text-shadow: 3px 3px 15px rgba(0, 0, 0, 0.8);
+        }
+
+        /* BUTTON BASE STYLE */
+        .base-btn {
+            position: absolute;
+            padding: 18px 80px;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            clip-path: polygon(10% 0%, 90% 0%, 100% 50%, 90% 100%, 10% 100%, 0% 50%);
+        }
+
+        /* BUTTON SHAPE EFFECT */
+        .base-btn::before,
+        .base-btn::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            z-index: -1;
+        }
+
+        .base-btn::before {
+            clip-path: polygon(0 50%, 102% 0, 102% 100%);
+        }
+
+        .base-btn::after {
+            clip-path: polygon(100% 50%, -2% 0, -2% 100%);
+        }
+
+        /* YELLOW BUTTON */
+        .yellow-btn {
+            bottom: 21px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #fed103;
+            color: #00416c;
+        }
+
+        .yellow-btn:hover {
+            background-color: white;
+            color: #e52718;
+        }
+
+        /* CREDITS BUTTON */
+        .credits-btn {
+            top: 10px;
+            right: 30px;
+            background-color: #e52718;
+            color: white;
+        }
+
+        .credits-btn:hover {
+            background-color: #fed103;
+            color: #00416c;
+        }
+
+        /* Ensuring text stays on top */
+        .base-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Coming Soon Text -->
+    <div class="coming-soon">Coming Soon</div>
+
+    <!-- Credits Button (Links to credits.html) -->
+    <a href="../finalle/credits.html" class="credits-btn base-btn"><span>Credits</span></a>
+
+    <!-- View Photo Button (Redirects to the external URL) -->
+    <a href="https://space.crunchlabs.com/selfie/pjTEzah?utm_source=Klaviyo&utm_medium=flow&utm_campaign=Confirmation%3A%20Code%20Used&utm_id=TWvXt3&tw_profile_id=01JKPCS7A5ZSFQDRMHTP24M703&tw_medium=flow&tw_source=klaviyo" 
+       target="_blank" 
+       class="yellow-btn base-btn">
+        <span>View Photo Now</span>
+    </a>
+
+</body>
+</html>
