@@ -13,25 +13,32 @@
             font-family: Arial, sans-serif;
             background: url('../model/Nations/westbg.png') no-repeat center center fixed;
             background-size: cover;
+            opacity: 0; /* Start hidden */
+            transition: opacity 1s ease-in-out;
+            overflow: hidden; /* Lock scrolling */
         }
         .container {
             width: 80%;
             max-width: 800px;
             margin: 50px auto;
+            opacity: 0; /* Start hidden */
+            transition: opacity 1s ease-in-out;
         }
         .spacer {
-            height: 420px; /* Adds space at the top */
+            height: 0px; /* Adds space at the top */
         }
         iframe {
             width: 100%;
             border: none;
             margin-bottom: 20px;
+            opacity: 0; /* Start hidden */
+            transition: opacity 1.5s ease-in-out;
         }
         .youtube {
-            height: 315px;
+            height: 420px;
         }
         .spotify {
-            height: 850px; /* Allows for viewing multiple songs */
+            height: 850px;
         }
         .button {
             padding: 15px 30px;
@@ -65,33 +72,50 @@
     <div class="spacer"></div>
     <div class="container">
         <!-- YouTube Embed -->
-        <iframe class="youtube" src="https://www.youtube.com/embed/XdPtVqlYCj4?si=mdwQW-OfazrBQfsK" allowfullscreen></iframe>
+        <iframe class="youtube" id="youtube-frame" src="https://www.youtube.com/embed/XdPtVqlYCj4?si=mdwQW-OfazrBQfsK" allowfullscreen></iframe>
         
         <!-- Spotify Embed -->
-        <iframe class="spotify" src="https://open.spotify.com/embed/playlist/1WMxEhcCTmQYeR7huzOxNw?utm_source=generator" allow="encrypted-media"></iframe>
+        <iframe class="spotify" id="spotify-frame" src="https://open.spotify.com/embed/playlist/1WMxEhcCTmQYeR7huzOxNw?utm_source=generator" allow="encrypted-media"></iframe>
         
         <!-- Button -->
         <button class="button" id="complete-recon">Complete Reconnaissance</button>
     </div>
+
     <script>
+        // Fade in the page
+        window.onload = function() {
+            document.body.style.opacity = "1";
+
+            setTimeout(() => {
+                document.querySelector('.container').style.opacity = "1"; // Fade in container
+            }, 500);
+
+            setTimeout(() => {
+                document.getElementById("youtube-frame").style.opacity = "1"; // Fade in YouTube
+            }, 3000);
+
+            setTimeout(() => {
+                document.getElementById("spotify-frame").style.opacity = "1"; // Fade in Spotify
+                document.body.style.overflow = "auto"; // Unlock scrolling
+            }, 5000);
+        };
+
         document.getElementById("complete-recon").addEventListener("click", function() {
-            // ✅ **Retrieve last saved coordinates before leaving**
+            // ✅ Retrieve last saved coordinates before leaving
             let lastLat = sessionStorage.getItem("geminiLat");
             let lastLon = sessionStorage.getItem("geminiLon");
-    
-            // ✅ **Ensure this location is marked as visited**
+
+            // ✅ Ensure this location is marked as visited
             let visited = JSON.parse(sessionStorage.getItem("visitedLocations")) || [];
-            if (!visited.includes("West Coast")) { // 🔹 Replace "Japan" with country name
+            if (!visited.includes("West Coast")) { 
                 visited.push("West Coast");
                 sessionStorage.setItem("visitedLocations", JSON.stringify(visited));
             }
-    
-            // ✅ **Redirect back to Earth.html with updated lat/lon**
+
+            // ✅ Redirect back to Earth.html with updated lat/lon
             let returnURL = `../Earth Static/Earth.html?lat=${lastLat}&lon=${lastLon}`;
             window.location.href = returnURL;
         });
     </script>
-    
-    
 </body>
 </html>

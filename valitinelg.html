@@ -11,26 +11,26 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f8f8f8;
+            background-color: #eaeaea;
             font-family: Arial, sans-serif;
             position: relative;
             overflow: hidden;
             opacity: 0;
-            transition: background-color 1.5s, opacity 1.5s ease-out; /* Transition both background and opacity */
+            transition: background-color 1.5s, opacity 1.5s ease-out;
         }
         .password-section {
             display: flex;
             align-items: center;
             border: 2px solid #000;
             padding: 8px;
-            margin-top: 10px;
+            margin-top: 30px;
             width: 220px;
             background: white;
-            border-radius: 8px; /* Slightly rounded edges */
+            border-radius: 8px;
         }
         input {
             padding: 10px;
-            width:  b 100%;
+            width: 100%;
             border: none;
             outline: none;
             font-size: 16px;
@@ -39,8 +39,8 @@
             cursor: pointer;
             width: 29px;
             height: 22px;
-            margin-left: -35px; /* Pull it closer to the input */
-            opacity: 0.7; /* Slight transparency */
+            margin-left: -35px;
+            opacity: 0.7;
             transition: opacity 0.3s;
         }
         .toggle-password:hover {
@@ -55,7 +55,7 @@
             font-family: "Times New Roman", Times, serif;
             font-size: 24px;
         }
-        /* Tv Turn-Off Animation */
+        /* TV Turn-Off Animation */
         #screen-overlay {
             position: fixed;
             top: 0;
@@ -64,10 +64,9 @@
             height: 100%;
             background: black;
             z-index: 999;
-            display: none; /* Hidden by default */
+            display: none;
             animation: tvOff 1.5s forwards;
         }
-        
         @keyframes tvOff {
             0% { transform: scaleY(1); opacity: 1; }
             60% { transform: scaleY(0.04); }
@@ -80,6 +79,36 @@
         .hidden {
             visibility: hidden;
         }
+        .fade-out {
+            opacity: 0;
+            transition: opacity 1s ease-out;
+        }
+        /* Cheat Code Dropdown Styling */
+        .cheat-overlay {
+        margin-top: 10px;
+        font-size: 14px;
+        color: lightgray;
+        cursor: pointer;
+        text-decoration: underline;
+        transition: opacity 1.5s ease-out; /* Added fade-out effect */
+    }
+        .cheat-menu {
+            display: none;
+            margin-top: 10px;
+            border: 1px solid #000;
+            background: white;
+            border-radius: 8px;
+            padding: 8px;
+            width: 220px;
+        }
+        .cheat-menu select {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -91,23 +120,42 @@
         </div>
     </form>
     <p class="hint">Hint: Agnostic term for on god </p>
+
+    <!-- Cheat Code Overlay -->
+    <div class="cheat-overlay" onclick="confirmCheat()">Cheat Code</div>
+
+    <!-- Cheat Code Dropdown (Initially Hidden) -->
+    <div class="cheat-menu" id="cheat-menu">
+        <select id="cheat-select" onchange="useCheatCode()">
+            <option value="">-- Select Cheat Code --</option>
+            <option value="game">Game</option>
+            <option value="asia">Asia</option>
+            <option value="africa">Africa</option>
+            <option value="latin">Latin America</option>
+            <option value="euro">Europe</option>
+            <option value="west">West Coast</option>
+            <option value="east">East Coast</option>
+            <option value="final">Finalle</option>
+            <option value="selfie">Selfie</option>
+        </select>
+    </div>
+
     <p id="message" style="color: red;"></p>
-    <!-- TV-Off Animation Overlay -->
     <div id="screen-overlay"></div>
 
     <script>
-          function togglePassword() {
+        function togglePassword() {
             const passwordInput = document.getElementById("password");
             const toggleIcon = document.getElementById("toggleIcon");
 
             if (passwordInput.type === "password") {
                 passwordInput.type = "text";
-                toggleIcon.src = "/images/eye-open.png"; // Show open eye when password is visible
+                toggleIcon.src = "/images/eye-open.png";
             } else {
                 passwordInput.type = "password";
-                toggleIcon.src = "/images/eye-closed.png"; // Show closed eye when password is hidden
+                toggleIcon.src = "/images/eye-closed.png";
             }
-          }
+        }
 
         function handleKeyPress(event) {
             if (event.key === "Enter") {
@@ -116,27 +164,57 @@
             }
         }
 
+        function confirmCheat() {
+            if (confirm("Are you sure you want to skip ahead?")) {
+                document.querySelector(".cheat-menu").style.display = "block";
+            }
+        }
+
+        function useCheatCode() {
+            const selectedCode = document.getElementById("cheat-select").value;
+            if (selectedCode) {
+                const cheatCodes = {
+                    "game": "/Earth/Earth Static/Earth.html",
+                    "asia": "/Earth/Nations/asia.html",
+                    "africa": "/Earth/Nations/midl.html",
+                    "latin": "/Earth/Nations/latin.html",
+                    "euro": "/Earth/Nations/euro.html",
+                    "west": "/Earth/Nations/west.html",
+                    "east": "/Earth/Nations/east.html",
+                    "final": "/Earth/finalle/finalmission.html",
+                    "selfie": "/Earth/finalle/satgus.html"
+                };
+                window.location.href = cheatCodes[selectedCode];
+            }
+        }
+
         function checkPassword() {
             const password = document.getElementById("password").value;
-            const validPasswords = [" On Something", "on something", "onsomething", "On something", "onSomething", "on Something", "OnSomething","Onsomething"];
+            const message = document.getElementById("message");
+            const validPasswords = ["On Something", "on something", "onsomething", "On something", "onSomething", "on Something", "OnSomething", "Onsomething"];
+            const cheatText = document.querySelector(".cheat-overlay");
+
             if (validPasswords.includes(password)) {
-                // Hide the elements to avoid flickering
                 document.querySelector('.title').classList.add('hidden');
                 document.querySelector('.password-section').classList.add('hidden');
                 document.querySelector('.hint').classList.add('hidden');
+                cheatText.classList.add('hidden');
 
-                // Show the screen overlay and play animation
                 document.getElementById("screen-overlay").style.display = "block";
-                document.body.classList.add("faded");  // Add fade-out effect to body (entire page fades to black)
+                document.body.classList.add("faded");
 
-                // Redirect to the YouTube page after animation completes (1.5s)
                 setTimeout(() => {
-                    window.location.href = "/static/introvid.html"; // Change to your actual page
+                    window.location.href = "/static/introvid.html";
                 }, 1200);
             } else {
-                document.getElementById("message").textContent = "Incorrect password, try again.";
+                message.textContent = "Incorrect password, try again.";
+                message.classList.remove("fade-out");
+                setTimeout(() => {
+                    message.classList.add("fade-out");
+                }, 1000);
             }
         }
+
         window.onload = () => {
             document.body.style.opacity = "1";
         }

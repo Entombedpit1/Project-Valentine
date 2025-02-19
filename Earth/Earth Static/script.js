@@ -205,16 +205,81 @@ function updateGeminiMovement() {
     }
 }
 
+// Function to update the country panel dynamically
+function updateCountryPanel(country) {
+    const panel = document.getElementById("side-panel");
+    const countryName = document.getElementById("country-name");
+    const countryDesc = document.getElementById("country-description");
+    const photo1 = document.getElementById("photo1");
+    const photo2 = document.getElementById("photo2");
+    const photo3 = document.getElementById("photo3");
+
+    // Country data with specific images and descriptions
+    const countryData = {
+        "Asia": {
+            name: "Asia",
+            description: "A vast continent with rich cultures, ancient history, and modern advancements.",
+            photos: ["../model/sidepanel/asia1.jpg", "../model/sidepanel/asia2.jpg", "../model/sidepanel/asia3.jpg"]
+        },
+        "West Coast": {
+            name: "West Coast",
+            description: "From Hollywood to Silicon Valley, the West Coast is the hub of entertainment and innovation.",
+            photos: ["../model/sidepanel/west1.jpg", "../model/sidepanel/west2.jpg", "../model/sidepanel/west3.jpg"]
+        },
+        "East Coast": {
+            name: "East Coast",
+            description: "Home to historic cities like New York and Boston, filled with culture and iconic landmarks.",
+            photos: ["../model/sidepanel/east1.jpg", "../model/sidepanel/east2.jpg", "../model/sidepanel/east3.jpg"]
+        },
+        "Europe": {
+            name: "Europe",
+            description: "A continent rich in history, architecture, and world-famous landmarks.",
+            photos: ["../model/sidepanel/euro1.jpg", "../model/sidepanel/euro2.jpg", "../model/sidepanel/euro3.jpg"]
+        },
+        "Africa": {
+            name: "Africa",
+            description: "The cradle of civilization, with breathtaking landscapes, wildlife, and diverse cultures.",
+            photos: ["../model/sidepanel/africa1.jpg", "../model/sidepanel/africa2.jpg", "../model/sidepanel/africa3.jpg"]
+        },
+        "Australia": {
+            name: "Australia",
+            description: "A land of natural wonders, unique wildlife, and stunning beaches.",
+            photos: ["../model/sidepanel/aus1.jpg", "../model/sidepanel/aus2.jpg", "../model/sidepanel/aus3.jpg"]
+        },
+        "South America": {
+            name: "South America",
+            description: "A region full of vibrant culture, delicious food, and breathtaking landscapes.",
+            photos: ["../model/sidepanel/latin1.jpg", "../model/sidepanel/latin2.jpg", "../model/sidepanel/latin3.jpg"]
+        }
+
+    };
+
+    if (countryData[country]) {
+        // Update country name and description
+        countryName.textContent = countryData[country].name;
+        countryDesc.textContent = countryData[country].description;
+
+        // Update images dynamically
+        photo1.src = countryData[country].photos[0];
+        photo2.src = countryData[country].photos[1];
+        photo3.src = countryData[country].photos[2];
+
+        // Show the panel
+        panel.classList.add("show");
+    }
+}
+
+
 // ✅ **Fix Proximity Check for Side Panel**
 function checkProximity() {
     let panelVisible = false;
 
     locations.forEach(loc => {
-        // Adjust longitude difference to correctly wrap around at -180/180
-        let lonDiff = Math.abs(geminiLon - loc.lon);
-        lonDiff = Math.min(lonDiff, 360 - lonDiff); // Ensures correct shortest distance
+        // 🌍 Normalize Longitude (Handles Wrapping Beyond ±180°)
+        let lonDiff = ((geminiLon - loc.lon + 540) % 360) - 180; 
+        let latDiff = geminiLat - loc.lat;
 
-        const latDiff = Math.abs(geminiLat - loc.lat);
+        // ✅ Calculate Distance Using Normalized Longitude
         const distance = Math.sqrt(Math.pow(latDiff, 2) + Math.pow(lonDiff, 2));
 
         if (distance <= 5) {
@@ -229,6 +294,8 @@ function checkProximity() {
             // ✅ Update Side Panel Content
             document.getElementById("country-name").textContent = loc.name;
             const reconButton = document.getElementById("recon-button");
+
+            updateCountryPanel(loc.name);
 
             // ✅ Fix: Reset Event Listeners to Prevent Multiple Clicks
             reconButton.replaceWith(reconButton.cloneNode(true));

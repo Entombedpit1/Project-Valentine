@@ -36,7 +36,7 @@
             height: 100%;
             object-fit: contain;
             opacity: 0;
-            transition: opacity 2s ease-in-out;
+            transition: opacity 1.2s ease-in-out;
         }
 
         .slideshow img.active {
@@ -59,7 +59,7 @@
             width: 0%;
             height: 100%;
             background-color: green;
-            transition: width 0.25s linear;
+            transition: width 0.15s linear;
         }
 
         #loading-text {
@@ -86,18 +86,17 @@
 </div>
 
 <script>
-    const slideshowDuration = 15000;
+    const slideshowDuration = 10000; // Reduced from 12000ms to 10000ms
     const loadingBar = document.getElementById('loading-bar');
-    const loadingText = document.getElementById('loading-text');
     const images = document.querySelectorAll('.slideshow-image');
 
     let loadingBarWidth = 0;
     const loadingInterval = setInterval(() => {
         if (loadingBarWidth < 100) {
-            loadingBarWidth += (100 / slideshowDuration) * 1000;
+            loadingBarWidth += (100 / slideshowDuration) * 600; // Faster update
             loadingBar.style.width = `${loadingBarWidth}%`;
         }
-    }, 1000);
+    }, 600);
 
     let currentImageIndex = 0;
     function showNextImage() {
@@ -106,7 +105,7 @@
         images[currentImageIndex].classList.add('active');
     }
 
-    setInterval(showNextImage, 3500);
+    setInterval(showNextImage, 2000); // Reduced from 2500ms to 2000ms
     images[currentImageIndex].classList.add('active');
 
     setTimeout(() => {
