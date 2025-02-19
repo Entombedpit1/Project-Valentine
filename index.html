@@ -116,7 +116,7 @@
     <form onsubmit="event.preventDefault(); checkPassword();">
         <div class="password-section">
             <input type="password" id="password" placeholder="Enter password" onkeydown="handleKeyPress(event)">
-            <img src="./images/eye-closed.png" id="toggleIcon" class="toggle-password" onclick="togglePassword()" alt="Toggle Password">
+            <img src="../images/eye-closed.png" id="toggleIcon" class="toggle-password" onclick="togglePassword()" alt="Toggle Password">
         </div>
     </form>
     <p class="hint">Hint: Agnostic term for on god </p>
@@ -150,10 +150,10 @@
 
             if (passwordInput.type === "password") {
                 passwordInput.type = "text";
-                toggleIcon.src = "./images/eye-open.png";
+                toggleIcon.src = "../images/eye-open.png";
             } else {
                 passwordInput.type = "password";
-                toggleIcon.src = "./images/eye-closed.png";
+                toggleIcon.src = "../images/eye-closed.png";
             }
         }
 
@@ -174,15 +174,15 @@
             const selectedCode = document.getElementById("cheat-select").value;
             if (selectedCode) {
                 const cheatCodes = {
-                    "game": "./Earth/Earth Static/Earth.html",
-                    "asia": "./Earth/Nations/asia.html",
-                    "africa": "./Earth/Nations/midl.html",
-                    "latin": "./Earth/Nations/latin.html",
-                    "euro": "./Earth/Nations/euro.html",
-                    "west": "./Earth/Nations/west.html",
-                    "east": "./Earth/Nations/east.html",
-                    "final": "./Earth/finalle/finalmission.html",
-                    "selfie": "./Earth/finalle/satgus.html"
+                    "game": "Project-Valentine/Earth/Earth Static/Earth.html",
+                    "asia": "../Earth/Nations/asia.html",
+                    "africa": "../Earth/Nations/midl.html",
+                    "latin": "../Earth/Nations/latin.html",
+                    "euro": "../Earth/Nations/euro.html",
+                    "west": "../Earth/Nations/west.html",
+                    "east": "../Earth/Nations/east.html",
+                    "final": "../Earth/finalle/finalmission.html",
+                    "selfie": "../Earth/finalle/satgus.html"
                 };
                 window.location.href = cheatCodes[selectedCode];
             }
@@ -204,7 +204,7 @@
                 document.body.classList.add("faded");
 
                 setTimeout(() => {
-                    window.location.href = "./static/introvid.html";
+                    window.location.href = "../static/introvid.html";
                 }, 1200);
             } else {
                 message.textContent = "Incorrect password, try again.";
